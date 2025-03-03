@@ -1,0 +1,35 @@
+#!/bin/bash
+
+user=$(whoami)
+
+
+if [[ $1 == '-d' ]]
+  then
+   rm -r -d /home/$user/Hack/$2 2>/dev/null
+elif [[ $1 == '-l' ]]
+  then
+    echo -e "\n"
+
+    ls /home/$user/Hack/ 2>/dev/null; 
+elif [[ -d /home/$user/Hack/$2 ]] && [[ $2 != '' ]] && [[ $1 != "-d" ]]
+  then
+    echo -e "\n\e[1;31m[Error\e[1;31m] \e[01;37mEl objetivo $2 ya ha sido establecido anteriormente";
+
+elif [[ $2 != '' ]] 
+  then
+    clear 
+    echo "echo %{F#FF0000}󰓾%{F#ffffff} $1 - $2" > /home/$user/.config/bin/target.sh; 
+    echo -e "\n\e[1;32m[+]\e[1;37m El objetivo $2 se ha establecido exitosamente"
+    mkdir -p /home/$user/Hack/$2/{nmap,exploits,notes}
+    echo -e "\n\e[1;32m[+]\e[1;37m Directorios Nmap, Exploits y notes han sido creados exitosamente"
+    cd /home/$user/Hack/$2
+    sleep 6
+    clear
+    echo -e "\n\e[1;32m[+]\e[1;37m Bienvenido a su entorno de trabajo $user" 
+elif [[ $1 == "reset" ]] 
+  then 
+
+    echo "echo '%{F#FF0000}󰓾%{F#ffffff} No Targets'" > /home/$user/.config/bin/target.sh;
+else|
+  echo -e "|------------------------------------------------------------|\n| [?] Listar directorios: set-target -l                      |\n|                                                            |\n| [?] Borrar objetivos: set-target -d Nombre-De-Objetivo     |\n|                                                            |\n| [?] Definir objetivos: set-target IP Nombre-De-Objetivo    |\n|                                                            |\n| [?] Borrar objetivo de la polybar: set-target reset        |\n|------------------------------------------------------------|"
+fi
